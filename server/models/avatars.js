@@ -1,18 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-    const feedbacks = sequelize.define("feedback", {
-        ID_Feedback: {
+    const avatars = sequelize.define("avatar", {
+        ID_Avatar: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true
         },
-        Comment: {
-            type: DataTypes.STRING(350),
+        Link: {
+            type: DataTypes.STRING(30),
             allowNull: false,
-            length:[1,350]
+            length:[15,30]
         },
         
     },{
         timestamps: false
       })
-      return feedbacks;
+      return avatars;
 }

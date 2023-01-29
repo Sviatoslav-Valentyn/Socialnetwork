@@ -43,5 +43,24 @@ db.users.hasMany(db.feedback, {
   onUpdate: 'RESTRICT'
 });
 
+db.users.hasMany(db.avatar, {
+  foreignKey: {
+    name: 'ID_User',
+    allowNull: false
+  },
+  onDelete: 'RESTRICT',
+  onUpdate: 'RESTRICT'
+});
+
+db.users.hasMany(db.photo, {
+  foreignKey: {
+    name: 'ID_User',
+    allowNull: false
+  },
+  onDelete: 'RESTRICT',
+  onUpdate: 'RESTRICT'
+});
+
+
 
 module.exports = db;
