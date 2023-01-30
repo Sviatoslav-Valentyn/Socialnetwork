@@ -1,9 +1,13 @@
 import Registation from "./Components/Registation/idnex";
+import {Routes, Route} from 'react-router-dom';
 
 function App() {
   return (
     <div className="App">
-      <Registation />
+      <Routes>
+        <Route path="/" element={<Registation />}></Route>
+      </Routes>
+      
     </div>
   );
 }

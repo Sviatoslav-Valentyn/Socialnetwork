@@ -7,6 +7,8 @@ const Registation = () => {
     const [password, setPassword] = useState();
     const [email, setEmail] = useState();
     const [number, setNumber] = useState();
+
+    const url = 'http://localhost:3005/user/registration'
     
     function submit(e){
         e.preventDefault();
@@ -15,22 +17,22 @@ const Registation = () => {
         console.log(email);
         console.log(number);
 
-        axios.post('http://localhost:3001/registration', {
-            name: username,
-            password: password,
-            email: email,
-            number: number,
+        axios.post(url, {
+            Name: username,
+            Password: password,
+            Email: email,
+            Phonenumber: number,
         })
-            .then(function (response) {
+        .then(function (response) {
             console.log(response);
         })
-            .catch(function (error) {
+        .catch(function (error) {
             console.log(error);
         });
     }
 
     return ( 
-        <form className={styles.login} action='http://localhost:3001/registration' method='POST'> 
+        <form className={styles.login} method="POST" action='http://localhost:3005/user/registration'> 
             <input type="text" className={styles.input} placeholder='Writting username...' onChange={e => setUsername(e.currentTarget.value)}/>
             <input type="password" className={styles.input} placeholder='Writting password...' onChange={e => setPassword(e.currentTarget.value)}/>
             <input type="email" className={styles.input} placeholder='Writting email...' onChange={e => setEmail(e.currentTarget.value)}/>
