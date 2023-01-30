@@ -21,7 +21,7 @@ const Registation = () => {
             Name: username,
             Password: password,
             Email: email,
-            Phonenumber: number,
+            PhoneNumber: number,
         })
         .then(function (response) {
             console.log(response);

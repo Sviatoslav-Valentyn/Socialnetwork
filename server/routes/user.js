@@ -27,7 +27,7 @@ router.get(`/byId/:id`, async (req,res) => {
 
 router.post('/registration', async (req,res) => {
     const {Name,Password,Email,PhoneNumber} = req.body;
-    bcrypt.hash(Password, 10).then((hash) => {
+    bcrypt.hash(Password, 20).then((hash) => {
         users.create({Name,Password: hash,Email,PhoneNumber});
     })
     res.status(200).json("Success!");
