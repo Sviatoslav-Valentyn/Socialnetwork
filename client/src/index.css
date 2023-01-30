@@ -5,9 +5,32 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #0C0A18;
+  text-shadow: -1px 0 #7939FF, 0 1px #7939FF, 1px 0 #7939FF, 0 -1px #7939FF;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: local("Gilroy"),
+   url("./fonts/Gilroy/Gilroy-Bold.ttf") format("truetype");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: local("Gilroy"),
+   url("./fonts/Gilroy/Gilroy-Medium.ttf") format("truetype");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Gilroy";
+  src: local("Gilroy"),
+   url("./fonts/Gilroy/Gilroy-Light.ttf") format("truetype");
+  font-weight: 300;
 }

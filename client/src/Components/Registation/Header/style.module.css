@@ -1,0 +1,9 @@
+.header{
+    border-bottom: 2px solid #201B44;
+}
+
+.inner{
+    height: 130px;
+    display: flex;
+    align-items: center;
+}
