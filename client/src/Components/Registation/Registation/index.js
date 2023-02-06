@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useState } from 'react';
+import { redirect } from "react-router-dom";
 import styles from './style.module.css'
 
 const Registation = () => {
@@ -12,19 +13,19 @@ const Registation = () => {
     
     function submit(e){
         e.preventDefault();
+
         console.log(username);
-        console.log(password);
-        console.log(email);
-        console.log(number);
 
         axios.post(url, {
-            Name: username,
+            User_Name: username,
             Password: password,
             Email: email,
             PhoneNumber: number,
         })
         .then(function (response) {
-            console.log(response);
+            if(response.status === 200){
+                window.location.pathname = '/home';
+            }
         })
         .catch(function (error) {
             console.log(error);

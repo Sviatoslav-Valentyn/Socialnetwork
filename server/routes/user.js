@@ -34,27 +34,45 @@ router.post('/registration', async (req,res) => {
 });
 
 router.post('/login', async (req,res) => {
-    const {Password,Email} = req.body;
+    const {Password,Email, User_Name} = req.body;
     console.log(req.body)
-    if (!Email || !Password) 
+    if ((!Email || !User_Name) || !Password) 
     {
         res.status(404).json({message: 'Login or Password --- Error'})
     }
-    const SearchUser = await users.findOne({ where: { Email: Email} })
-    if(!SearchUser)
+    const SearchUserForEmail = await users.findOne({ where: { Email: Email} })
+    const SearchUserForUser_Name = await users.findOne({ where: { User_Name: User_Name} })
+    if(!SearchUserForEmail)
     {
         res.status(404).json({message: 'such user does not exist'})
     }
     else
     {
-    bcrypt.compare(Password,SearchUser.Password).then((match) =>{
+    bcrypt.compare(Password,SearchUserForEmail.Password).then((match) =>{
         if(!match)
         {
             res.status(401).json({message: 'password is incorrect'})
         }
         else
         {
-        res.status(200).json(SearchUser);
+        res.status(200).json(SearchUserForEmail);
+    }
+    })
+    }
+    if(!SearchUserForUser_Name)
+    {
+        res.status(404).json({message: 'such user does not exist'})
+    }
+    else
+    {
+    bcrypt.compare(Password,SearchUserForUser_Name.Password).then((match) =>{
+        if(!match)
+        {
+            res.status(401).json({message: 'password is incorrect'})
+        }
+        else
+        {
+        res.status(200).json(SearchUserForUser_Name);
     }
     })
     }
