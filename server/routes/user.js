@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt')
 const {users} = require('../models');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -33,49 +34,30 @@ router.post('/registration', async (req,res) => {
     res.status(200).json("Success!");
 });
 
-router.post('/login', async (req,res) => {
-    const {Password,Email, User_Name} = req.body;
-    console.log(req.body)
-    if ((!Email || !User_Name) || !Password) 
-    {
-        res.status(404).json({message: 'Login or Password --- Error'})
-    }
-    const SearchUserForEmail = await users.findOne({ where: { Email: Email} })
-    const SearchUserForUser_Name = await users.findOne({ where: { User_Name: User_Name} })
-    if(!SearchUserForEmail)
-    {
-        res.status(404).json({message: 'such user does not exist'})
-    }
-    else
-    {
-    bcrypt.compare(Password,SearchUserForEmail.Password).then((match) =>{
-        if(!match)
-        {
-            res.status(401).json({message: 'password is incorrect'})
-        }
-        else
-        {
-        res.status(200).json(SearchUserForEmail);
-    }
-    })
-    }
-    if(!SearchUserForUser_Name)
-    {
-        res.status(404).json({message: 'such user does not exist'})
-    }
-    else
-    {
-    bcrypt.compare(Password,SearchUserForUser_Name.Password).then((match) =>{
-        if(!match)
-        {
-            res.status(401).json({message: 'password is incorrect'})
-        }
-        else
-        {
-        res.status(200).json(SearchUserForUser_Name);
-    }
-    })
-    }
+router.post("/login", async (req, res) => {
+  const { Password, Email, User_Name } = req.body;
+
+  if (!Email || !User_Name || !Password) {
+    res.status(404).json({ message: "Login or Password --- Error" });
+  }
+
+  Email
+    ? (user = await users.findOne({ where: { Email: Email } }))
+    : (user = await users.findOne({ where: { User_Name: User_Name } }));
+
+  if (user) {
+    bcrypt.compare(Password, user.Password).then((match) => {
+      if (!match) {
+        res.status(401).json({ message: "password is incorrect" });
+      } else {
+        const acsessToken = jwt.sign(
+            {ID_User: user.ID_User}, 'mySecreyKey'
+        );
+        res.status(200).json(acsessToken);
+        console.log(acsessToken);
+      }
+    });
+  }
 });
 
 router.put(`/byId/:id`, async (req,res) => {
