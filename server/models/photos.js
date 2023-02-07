@@ -9,8 +9,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING(30),
             allowNull: false,
             length:[15,30]
-        },
-        
+        }
     },{
         timestamps: false
       })

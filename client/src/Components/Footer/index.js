@@ -1,6 +1,6 @@
 import styles from './style.module.css';
 import { Container } from '@mui/material';
-import Logo from '../../UI/Logo';
+import Logo from '../UI/Logo';
 
 const Footer = () => {
     return ( 

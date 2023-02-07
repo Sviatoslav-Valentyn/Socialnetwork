@@ -1,6 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt')
 const {users} = require('../models');
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -33,31 +34,30 @@ router.post('/registration', async (req,res) => {
     res.status(200).json("Success!");
 });
 
-router.post('/login', async (req,res) => {
-    const {Password,Email} = req.body;
-    console.log(req.body)
-    if (!Email || !Password) 
-    {
-        res.status(404).json({message: 'Login or Password --- Error'})
-    }
-    const SearchUser = await users.findOne({ where: { Email: Email} })
-    if(!SearchUser)
-    {
-        res.status(404).json({message: 'such user does not exist'})
-    }
-    else
-    {
-    bcrypt.compare(Password,SearchUser.Password).then((match) =>{
-        if(!match)
-        {
-            res.status(401).json({message: 'password is incorrect'})
-        }
-        else
-        {
-        res.status(200).json(SearchUser);
-    }
-    })
-    }
+router.post("/login", async (req, res) => {
+  const { Password, Email, User_Name } = req.body;
+
+  if (!Email || !User_Name || !Password) {
+    res.status(404).json({ message: "Login or Password --- Error" });
+  }
+
+  Email
+    ? (user = await users.findOne({ where: { Email: Email } }))
+    : (user = await users.findOne({ where: { User_Name: User_Name } }));
+
+  if (user) {
+    bcrypt.compare(Password, user.Password).then((match) => {
+      if (!match) {
+        res.status(401).json({ message: "password is incorrect" });
+      } else {
+        const acsessToken = jwt.sign(
+            {ID_User: user.ID_User}, 'mySecreyKey'
+        );
+        res.status(200).json(acsessToken);
+        console.log(acsessToken);
+      }
+    });
+  }
 });
 
 router.put(`/byId/:id`, async (req,res) => {
