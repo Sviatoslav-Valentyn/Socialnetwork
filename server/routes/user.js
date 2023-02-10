@@ -22,24 +22,20 @@ router.get(`/byId/:id`, async (req,res) => {
     res.status(464).json({message: 'user by id not found'})
     }
     else{
-        res.status(200).json(User);
+        return res.status(200).json(User);
     }
 });
 
 router.post('/registration', async (req,res) => {
-    const {Name,Password,Email,PhoneNumber} = req.body;
+    const {User_Name, Password,Email,PhoneNumber} = req.body;
     bcrypt.hash(Password, 20).then((hash) => {
-        users.create({Name,Password: hash,Email,PhoneNumber});
+        users.create({User_Name,Password: hash,Email,PhoneNumber});
     })
     res.status(200).json("Success!");
 });
 
 router.post("/login", async (req, res) => {
   const { Password, Email, User_Name } = req.body;
-
-  if (!Email || !User_Name || !Password) {
-    res.status(404).json({ message: "Login or Password --- Error" });
-  }
 
   Email
     ? (user = await users.findOne({ where: { Email: Email } }))
@@ -48,13 +44,14 @@ router.post("/login", async (req, res) => {
   if (user) {
     bcrypt.compare(Password, user.Password).then((match) => {
       if (!match) {
-        res.status(401).json({ message: "password is incorrect" });
+        return res.status(401).json({ message: "password is incorrect" , password: `Password: ${Password}`, User: `User: ${User_Name}`});
       } else {
-        const acsessToken = jwt.sign(
-            {ID_User: user.ID_User}, 'mySecreyKey'
-        );
-        res.status(200).json(acsessToken);
-        console.log(acsessToken);
+        // const acsessToken = jwt.sign(
+        //     {ID_User: user.ID_User}, 'mySecreyKey'
+        // );
+        // res.status(200).json(acsessToken);
+        return res.status(200).json(user);
+        // console.log(acsessToken);
       }
     });
   }

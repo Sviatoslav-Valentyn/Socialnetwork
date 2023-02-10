@@ -24,7 +24,7 @@ const Registation = () => {
         })
         .then(function (response) {
             if(response.status === 200){
-                window.location.pathname = '/home';
+                console.log('ok');
             }
         })
         .catch(function (error) {
